@@ -1,0 +1,13 @@
+{
+  "name": "Tareas Escolares en Solana",
+  "image": "mcr.microsoft.com/devcontainers/typescript-node:1-22-bookworm",
+  "postCreateCommand": "npm install && npm run cliente",
+  "remoteUser": "node",
+  "forwardPorts": [5173],
+  "portsAttributes": {
+    "5173": {
+      "label": "Tareas escolares",
+      "onAutoForward": "openBrowser"
+    }
+  }
+}

@@ -1,0 +1,311 @@
+{
+  "version": "0.1.0",
+  "name": "escuela",
+  "instructions": [
+    {
+      "name": "crearGrupo",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "grupo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "nombreGrupo",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "inscribirAlumno",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "grupo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "alumno",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "nombre",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "entregarTarea",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "grupo",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "alumno",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tarea",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "idAlumno",
+          "type": "u16"
+        },
+        {
+          "name": "clave",
+          "type": "string"
+        },
+        {
+          "name": "titulo",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "calificarTarea",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "grupo",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "alumno",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tarea",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "idAlumno",
+          "type": "u16"
+        },
+        {
+          "name": "clave",
+          "type": "string"
+        },
+        {
+          "name": "calificacion",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "borrarTarea",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "grupo",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "alumno",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tarea",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "idAlumno",
+          "type": "u16"
+        },
+        {
+          "name": "clave",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "darBajaAlumno",
+      "accounts": [
+        {
+          "name": "owner",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "grupo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "alumno",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "idAlumno",
+          "type": "u16"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Grupo",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "nombreGrupo",
+            "type": "string"
+          },
+          {
+            "name": "alumnos",
+            "type": {
+              "vec": "publicKey"
+            }
+          },
+          {
+            "name": "idCounter",
+            "type": "u16"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Alumno",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "idAlumno",
+            "type": "u16"
+          },
+          {
+            "name": "nombre",
+            "type": "string"
+          },
+          {
+            "name": "entregas",
+            "type": "u16"
+          },
+          {
+            "name": "tareas",
+            "type": {
+              "vec": "publicKey"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Tarea",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "clave",
+            "type": "string"
+          },
+          {
+            "name": "titulo",
+            "type": "string"
+          },
+          {
+            "name": "calificacion",
+            "type": "u8"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "NoOwner",
+      "msg": "Error, no eres el maestro de este grupo"
+    },
+    {
+      "code": 6001,
+      "name": "TareaNoEncontrada",
+      "msg": "Error, la tarea no esta en la lista del alumno"
+    },
+    {
+      "code": 6002,
+      "name": "AlumnoConTareas",
+      "msg": "Error, el alumno todavia tiene tareas"
+    },
+    {
+      "code": 6003,
+      "name": "AlumnoNoInscrito",
+      "msg": "Error, el alumno no esta inscrito en el grupo"
+    },
+    {
+      "code": 6004,
+      "name": "CalificacionInvalida",
+      "msg": "Error, la calificacion debe estar entre 1 y 10"
+    }
+  ],
+  "metadata": {
+    "address": "38oTMyvUTmqkBQeMiuok5F2mPjp9dVadWdBeQTDNmTUY"
+  }
+}
